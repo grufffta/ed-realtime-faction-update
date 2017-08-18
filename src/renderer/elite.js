@@ -9,6 +9,9 @@ if (!process.env.IS_WEB) {
 }
 
 export function watchEliteDangerousLog(cb) {
+  if (!/^win/.test(process.platform)) {
+    return
+  }
 
   fs.readdir(watchDir, (err, files) => {
     if (err) { throw err }
