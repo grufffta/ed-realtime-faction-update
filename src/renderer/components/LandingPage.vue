@@ -13,63 +13,19 @@
       <div class="columns">
         <div v-for="sys in this.systems" v-bind:key="sys.name">
           <div class="column">
-            <div class="card">
-              <header class="card-header-title">{{ sys.faction }}</header>
-              <section class="card-content">
-                <div class="content">
-                  <p class="title"> {{ sys.name }} ({{ sys.allegiance }})</p>
-                  <p class="subtitle">{{ sys.economy }}, {{ sys.government }}</p>
-                  <table class="table">
-                    <caption>Faction States</caption>
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Influence</th>
-                        <th>State</th>
-                        <th>Pending</th>
-                        <th>Recovering</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-for="faction in sys.factions" v-bind:key="faction.Name">
-                        <td>
-                          <abbr :title="`${ faction.Allegiance}, ${ faction.Government }`">{{ faction.Name }}</abbr>
-                        </td>
-                        <td>{{ Math.round(faction.Influence+'e4') / 100 }}%</td>
-                        <td>{{ faction.FactionState }}</td>
-                        <td>
-                          <div v-if="faction.PendingStates">
-                            <span v-for="p in faction.PendingStates" v-bind:key="p.State">
-                              {{ p.State }}
-                              <br/>
-                            </span>
-                          </div>
-                        </td>
-                        <td>
-                          <div v-if="faction.RecoveringStates">
-                            <span v-for="r in faction.RecoveringStates" v-bind:key="r.State">
-                              {{ r.State }}
-                              <br/>
-                            </span>
-                          </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </section>
-            </div>
+            <system :sys="sys" />
           </div>
         </div>
       </div>
-    </div>
-  
+    </div>  
   </main>
 </template>
 
 <script>  
 import Vue from 'vue'
 import db from '@/db'
+import System from '@/components/System'
+
 import { watchEliteDangerousLog, stopWatching } from '../elite'
 export default {
   name: 'landing-page',
@@ -82,6 +38,7 @@ export default {
 
     }
   },
+  components: { System },
   methods: {
     open(link) {
       this.$electron.shell.openExternal(link)
@@ -89,7 +46,6 @@ export default {
   },
   mounted: function () {
     if (!process.env.IS_WEB) {
-      console.log(this)
       var context = this
       watchEliteDangerousLog(function (data) {
         var system = {

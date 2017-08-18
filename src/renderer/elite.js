@@ -22,14 +22,14 @@ export function watchEliteDangerousLog(cb) {
 export function stopWatching(){
   if (watching) {
     fs.unwatchFile(watchFile)
-    watching = false
+    watchFile = ''
+    watching = false    
   }
 }
 
 function watchFileForEvents(filename, cb){  
   if (filename && !watching) {
     readFile(filename, cb)
-    fs.wa
     fs.watchFile(filename, function (curr, prev) {
       watching = true
       watchFile = filename
