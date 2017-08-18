@@ -63,7 +63,7 @@ export default {
         data.Powers.forEach(power => system.powers[power] = power)
         data.Factions.forEach(faction => system.factions[faction.Name] = faction)
         if (context.systems[system.name] && Date.parse(context.systems[system.name].timestamp) > Date.parse(system.timestamp)) return
-
+        // console.log('set', system)
         context.$set(context.systems, system.name, system)
       })
     }
