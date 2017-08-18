@@ -44,6 +44,11 @@
         </table>
       </div>
     </section>
+    <footer class="card-footer">
+      <div class="card-footer-item is-centered">
+      <p>last updated: {{ sys.timestamp }}</p>
+      </div>
+    </footer>
   </div>
 </template>
 
