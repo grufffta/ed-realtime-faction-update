@@ -2,6 +2,9 @@
 
 > Provide realtime faction data from ED logs
 
+Early prototype version just collects data and displays when run as an electron app
+Sync to remote peers to persist and share data
+
 #### Build Setup
 
 ``` bash
