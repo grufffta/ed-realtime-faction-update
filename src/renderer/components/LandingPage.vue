@@ -11,7 +11,7 @@
       <p>Running the app will your log files for system and faction data</p>
       <hr />
       <div class="columns">
-        <div v-for="sys in this.systems" v-bind:key="sys.name">
+        <div v-for="sys in this.systems" v-bind:key="sys.id">
           <div class="column">
             <system :sys="sys" />
           </div>
@@ -35,7 +35,7 @@ export default {
   gunData: {
     _rootKey: 'erfu',
     systems: {
-
+   
     }
   },
   components: { System },
@@ -49,6 +49,7 @@ export default {
       var context = this
       watchEliteDangerousLog(function (data) {
         var system = {
+          id: data.StarSystem.replace(/ /g,'_').replace(/'/g,''),
           name: data.StarSystem,
           faction: data.SystemFaction,
           allegiance: data.SystemAllegiance,
@@ -60,10 +61,12 @@ export default {
           powers: {},
           factions: {}
         }
-        data.Powers.forEach(power => system.powers[power] = power)
-        data.Factions.forEach(faction => system.factions[faction.Name] = faction)
-        if (context.systems[system.name] && Date.parse(context.systems[system.name].timestamp) > Date.parse(system.timestamp)) return
-        context.$set(context.systems, system.name, system)
+        data.Powers.forEach(power => system.powers[power.replace(/ /g, '_')] = power)
+        data.Factions.forEach(faction => system.factions[faction.Name.replace(/ /g,'_').replace(/'/g,'')] = faction)
+        if (context.systems[system.id] && Date.parse(context.systems[system.id].timestamp) > Date.parse(system.timestamp)) return        
+
+        context.$set(context.systems, system.id, system)                        
+        Vue.$gunData.addWatchers(context.$options.gunData, '', context)
       })
     }
   },
@@ -71,7 +74,7 @@ export default {
     if (!process.env.IS_WEB) {
       stopWatching()
     }
-  }
+  } 
 }
 </script>
 

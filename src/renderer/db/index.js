@@ -14,7 +14,7 @@ export default {
         return o
       },
       addGunWatcher: function (keyPath, val, vm) {
-        console.log('add-gun-watch', vm.$options.$gunRootKey, keyPath)
+        // console.log('add-gun-watch', vm.$options.$gunRootKey, keyPath)
         this.gun.get(vm.$options.$gunRootKey).path(keyPath)
           .not(function () { this.put(typeof val === 'object' && val.constructor === Array ? Vue.$gunData.arrToGunObj(val) : val) })
           .on(function (gunVal, gunKey) {
@@ -28,7 +28,7 @@ export default {
       vueWatcher: {},
       addVueWatcher: function (keyPath, vm) {
         this.vueWatcher[keyPath] = vm.$watch(keyPath, function (newVal) {
-          console.log('add-vue-watch', vm.$options.$gunRootKey, keyPath)
+          // console.log('add-vue-watch', vm.$options.$gunRootKey, keyPath)
           clearTimeout(Vue.$gunData.timeout[vm.$options.$gunRootKey + keyPath])
           Vue.$gunData.timeout[vm.$options.$gunRootKey + keyPath] = setTimeout(function () {
             if (typeof newVal === 'object' && newVal.constructor === Array) {
