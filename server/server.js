@@ -7,8 +7,7 @@ require('gun/nts')
 require('gun-level')
 
 const levelDB = levelup('./data', { db: leveldown })
-var server = new http.Server()
-server.createServer(function(req,res) {
+var server = http.createServer(function(req,res) {
 if(Gun.serve(req, res)){ return } // filters gun requests!
 	require('fs').createReadStream(require('path').join(__dirname, req.url)).on('error',function(){ // static files!
 		res.writeHead(200, {'Content-Type': 'text/html'});
