@@ -1,0 +1,1 @@
+docker run -d -v ~/gun-server/data:/gun-server/data -p 3272:3272 gun-server

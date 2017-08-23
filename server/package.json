@@ -1,0 +1,27 @@
+{
+  "name": "gun-server",
+  "version": "0.1.0",
+  "description": "Server process hosting a gun db peer",
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://gitlab.com/apily/db.git"
+  },
+  "keywords": [
+    "gunjs",
+    "realtime",
+    "db"
+  ],
+  "author": "Gareth Barlow <gruff@apily.co.uk>",
+  "private": true,
+  "license": "ISC",  
+  "dependencies": {
+    "gun": "^0.8.3",
+    "gun-level": "^6.0.1",
+    "leveldown": "^1.7.2",
+    "levelup": "^1.3.9"
+  },
+  "devDependencies": {
+    "express": "^4.15.4"
+  }
+}
