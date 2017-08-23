@@ -1,11 +1,11 @@
 const http = require('http')
 const levelup = require('levelup')
 const leveldown = require('leveldown')
-const Gun = require('gun/gun')
+const Gun = require('gun')
 require('gun/lib/ws')
 require('gun/nts')
 require('gun-level')
-
+require('gun/lib/serve')
 const levelDB = levelup('./data', { db: leveldown })
 var server = http.createServer(function(req,res) {
 if(Gun.serve(req, res)){ return } // filters gun requests!
