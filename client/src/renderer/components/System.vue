@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <header class="card-header-title">{{ sys.faction.name }}</header>
+    <header class="card-header-title">{{ sys.faction && sys.faction.name }}</header>
     <section class="card-content">
       <div class="content">
         <p class="title"> {{ sys.name }} ({{ sys.allegiance }})</p>
@@ -46,7 +46,7 @@
     </section>
     <footer class="card-footer">
       <div class="card-footer-item is-centered">
-      <p>last updated: {{ sys.timestamp }}</p>
+      <p>last updated: {{ new Date(sys.timestamp).toString() }}</p>
       </div>
     </footer>
   </div>
