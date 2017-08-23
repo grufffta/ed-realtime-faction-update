@@ -5,10 +5,6 @@ require('gun/lib/not')
 require('gun/lib/path')
 require('gun/lib/open')
 
-if (process.env.IS_WEB) {
-    localStorage.clear()
-}
-
 const gun = Gun(['http://peer.1.apily.co.uk:3272/gun', 'http://peer.2.apily.co.uk:3272/gun'])
 interface ISystems {
     [id: string]: ISystem
@@ -21,7 +17,7 @@ export default {
     watch: {
         systems (callback: (data: ISystem, key: string) => void) {
             gun.get('systems').map().on(function (data, key) {
-                if (!systems[key] || !data.timestamp || systems[key].timestamp < data.timestamp) {
+                //if (!systems[key] || !data.timestamp || systems[key].timestamp < data.timestamp) {
                     systems[key] = { ...systems[key], ...data }
 
                     let ref = this
@@ -44,7 +40,7 @@ export default {
                         }
                     }
                     callback(systems[key], key)
-                }
+          //     }
             }, true)
         }
     },
@@ -59,7 +55,7 @@ export default {
             })
             .val(function (data, key) {
                 if (!data) return
-                if (data.timestamp < record.timestamp) {
+                if (data.timestamp <= record.timestamp) {
                     console.log('faction data stale', faction.id)
                     this.put(record)
                 }
@@ -77,7 +73,7 @@ export default {
             })
             .val(function (data, key) {
                 if (!data) return
-                if (data.timestamp < record.timestamp) {
+                if (data.timestamp <= record.timestamp) {
                     console.log('system data stale', system.id)
                     this.put(record)
                 }
@@ -114,7 +110,7 @@ export default {
                 })
                 .val(function (data) {
                     if (!data) return
-                    if (data.timestamp < state.timestamp) {
+                    if (data.timestamp <= state.timestamp) {
                         console.log('system state data stale', state)
                         let ref = this.put(state)
                     }

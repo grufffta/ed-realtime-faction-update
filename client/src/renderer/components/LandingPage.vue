@@ -10,13 +10,11 @@
       <h2 class="subtitle">Faction States v0.1 [Alpha]</h2>
       <p>Running the app will your log files for system and faction data, {{ Object.keys(systems).length }} systems known</p>
       <hr />
-      <div class="columns">
-        <div v-for="sys in this.systems" v-bind:key="sys.id">
-          <div class="column">            
+        <div class="columns is-multiline">
+          <div v-for="sys in this.systems" v-bind:key="sys.id" class="column is-one-third-fullhd is-half-desktop ">
             <system :sys="sys" />
           </div>
-        </div>
-      </div>
+        </div> 
     </div>
     </div>
   </main>
@@ -35,15 +33,13 @@ export default {
       }
     }
   },
-  components:{ System },
+  components: { System },
   methods: {
-    open(link) {
-      this.$electron.shell.openExternal(link);
-    }
+
   },
-  mounted: function () {
+  mounted: function() {
     var context = this
-    db.watch.systems(function (system, key) {           
+    db.watch.systems(function(system, key) {
       Vue.set(context.systems, key, system)
       console.log('watch', key, system)
     })

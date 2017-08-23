@@ -1,9 +1,7 @@
 import { ISystem, IFaction, ISystemFaction, IStateTrend } from './records'
 import db from './db'
+import * as fs from 'fs'
 
-if (!process.env.IS_WEB) {
-    let fs = require('fs')
-}
 const watcher = {
     env: {
         isWeb: process.env.IS_WEB,

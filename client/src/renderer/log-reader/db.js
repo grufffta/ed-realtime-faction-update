@@ -2,9 +2,6 @@ const Gun = require('gun/gun');
 require('gun/lib/not');
 require('gun/lib/path');
 require('gun/lib/open');
-if (process.env.IS_WEB) {
-    localStorage.clear();
-}
 const gun = Gun(['http://peer.1.apily.co.uk:3272/gun', 'http://peer.2.apily.co.uk:3272/gun']);
 let systems = {};
 export default {
@@ -13,31 +10,31 @@ export default {
     watch: {
         systems(callback) {
             gun.get('systems').map().on(function (data, key) {
-                if (!systems[key] || !data.timestamp || systems[key].timestamp < data.timestamp) {
-                    systems[key] = Object.assign({}, systems[key], data);
-                    let ref = this;
-                    for (var prop in data) {
-                        if (prop === '_')
-                            continue;
-                        let val = data[prop];
-                        if (val instanceof Object && val['#'] !== undefined) {
-                            ref.get(prop).map().val((v, k) => {
-                                if (k === undefined || k === '#' || v === undefined)
-                                    return;
-                                v.system = data;
-                                this.back(-1).get(v.faction['#']).val(f => v.faction = Object.assign({}, v.faction, f));
-                                systems[key][prop] = Object.assign({}, systems[key][prop], { [k]: v });
-                                if (v.pending && v.pending['#']) {
-                                    this.back(-1).get(v.pending['#']).map().val((pending, pk) => v.pending[pk] = pending);
-                                }
-                                if (v.recovering && v.recovering['#']) {
-                                    this.back(-1).get(v.recovering['#']).map().val((recovering, rk) => v.recovering[rk] = recovering);
-                                }
-                            });
-                        }
+                //if (!systems[key] || !data.timestamp || systems[key].timestamp < data.timestamp) {
+                systems[key] = Object.assign({}, systems[key], data);
+                let ref = this;
+                for (var prop in data) {
+                    if (prop === '_')
+                        continue;
+                    let val = data[prop];
+                    if (val instanceof Object && val['#'] !== undefined) {
+                        ref.get(prop).map().val((v, k) => {
+                            if (k === undefined || k === '#' || v === undefined)
+                                return;
+                            v.system = data;
+                            this.back(-1).get(v.faction['#']).val(f => v.faction = Object.assign({}, v.faction, f));
+                            systems[key][prop] = Object.assign({}, systems[key][prop], { [k]: v });
+                            if (v.pending && v.pending['#']) {
+                                this.back(-1).get(v.pending['#']).map().val((pending, pk) => v.pending[pk] = pending);
+                            }
+                            if (v.recovering && v.recovering['#']) {
+                                this.back(-1).get(v.recovering['#']).map().val((recovering, rk) => v.recovering[rk] = recovering);
+                            }
+                        });
                     }
-                    callback(systems[key], key);
                 }
+                callback(systems[key], key);
+                //     }
             }, true);
         }
     },
@@ -53,7 +50,7 @@ export default {
             .val(function (data, key) {
             if (!data)
                 return;
-            if (data.timestamp < record.timestamp) {
+            if (data.timestamp <= record.timestamp) {
                 console.log('faction data stale', faction.id);
                 this.put(record);
             }
@@ -72,7 +69,7 @@ export default {
             .val(function (data, key) {
             if (!data)
                 return;
-            if (data.timestamp < record.timestamp) {
+            if (data.timestamp <= record.timestamp) {
                 console.log('system data stale', system.id);
                 this.put(record);
             }
@@ -107,7 +104,7 @@ export default {
                 .val(function (data) {
                 if (!data)
                     return;
-                if (data.timestamp < state.timestamp) {
+                if (data.timestamp <= state.timestamp) {
                     console.log('system state data stale', state);
                     let ref = this.put(state);
                 }

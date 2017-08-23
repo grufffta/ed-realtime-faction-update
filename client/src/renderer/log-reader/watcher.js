@@ -1,7 +1,5 @@
 import db from './db';
-if (!process.env.IS_WEB) {
-    let fs = require('fs');
-}
+
 const watcher = {
     env: {
         isWeb: process.env.IS_WEB,

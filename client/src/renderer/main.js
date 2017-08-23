@@ -10,7 +10,7 @@ import watcher from './log-reader/watcher'
 
 if (!process.env.IS_WEB) {
   Vue.use(require('vue-electron'))
-  watcher.start()
+ // watcher.start()
 }
 Vue.http = Vue.prototype.$http = axios;
 Vue.config.productionTip = false;
