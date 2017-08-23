@@ -28,7 +28,12 @@ export default {
                             ref.get(prop).map().val((v, k) => {
                                 if (k === undefined || k === '#' || v === undefined) return
                                 v.system = data                                
-                                this.back(-1).get(v.faction['#']).val(f => v.faction = {...v.faction, ...f})
+                                this.back(-1).get(v.faction['#']).val(f => {
+                                    v.faction = {...v.faction, ...f}
+                                    if (v.controlling){
+                                        systems[key].faction = v.faction
+                                    }
+                                })
                                 systems[key][prop] = { ...systems[key][prop], [k]: v }
                                 if (v.pending && v.pending['#']) {
                                     this.back(-1).get(v.pending['#']).map().val((pending, pk) => v.pending[pk] = pending)

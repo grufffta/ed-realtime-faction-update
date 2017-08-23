@@ -1,6 +1,6 @@
 <template>
   <div class="card">
-    <header class="card-header-title">{{ sys.faction }}</header>
+    <header class="card-header-title">{{ sys.faction.name }}</header>
     <section class="card-content">
       <div class="content">
         <p class="title"> {{ sys.name }} ({{ sys.allegiance }})</p>

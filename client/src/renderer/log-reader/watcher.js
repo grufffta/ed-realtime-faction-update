@@ -1,4 +1,5 @@
 import db from './db';
+//import * as fs from 'fs';
 
 const watcher = {
     env: {
@@ -23,6 +24,7 @@ const watcher = {
     }
 };
 export default watcher;
+let fs
 let fsw;
 function startWatchingLog() {
     if (watcher.env.isWindows && !watcher.env.isWeb) {
