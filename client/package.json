@@ -1,9 +1,9 @@
 {
   "name": "ed-faction-log-client",
-  "version": "0.0.0",
+  "version": "0.1.1",
   "author": "Gruff <gruff@apily.co.uk>",
   "description": "A nodejs/electron app to read the elite dangerous log and record it",
-  "license": null,
+  "license": "",
   "main": "./dist/electron/main.js",
   "scripts": {
     "build": "node .electron-vue/build.js && electron-builder",

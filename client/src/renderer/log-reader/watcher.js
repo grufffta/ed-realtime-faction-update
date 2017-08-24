@@ -1,5 +1,5 @@
 import db from './db';
-
+import * as fs from 'fs';
 const watcher = {
     env: {
         isWeb: process.env.IS_WEB,

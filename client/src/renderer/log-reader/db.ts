@@ -117,6 +117,8 @@ export default {
                     if (!data) return
                     if (data.timestamp <= state.timestamp) {
                         console.log('system state data stale', state)
+                        this.get('pending').put(null)
+                        this.get('recovering').put(null)
                         let ref = this.put(state)
                     }
                 })

@@ -2,21 +2,29 @@
   <main class="section">
     <header>
       <h1 class="title">Options</h1>
-      <h2 class="subtitle">Soon</h2>
+      <label class="label">Expansion Order</label>
+      <div class="field has-addons">        
+        <div class="control is-expanded">
+          <input class="input" v-model="sort" placeholder="Sort Expansion Order" />
+        </div>
+        <div class="control">
+          <a class="button is-info" disabled>Save Order</a>
+        </div>
+      </div>
       <hr />
     </header>
     <div>
       <h1 class="title">Elite Dangerous</h1>
       <h2 class="subtitle">Faction States v0.1 [Alpha]</h2>
-      <p>Running the app will your log files for system and faction data, {{ Object.keys(systems).length }} systems known</p>
+      <p>Running the app will scan your latest and subsequent log files for system and faction data. {{ Object.keys(systems).length }} systems are known</p>
       <hr />
-        <div class="columns is-multiline">
-          <div v-for="sys in this.sortedSystems" v-bind:key="sys.id" class="column is-one-third-fullhd is-half-desktop ">
-            <system :sys="sys" />
-          </div>
-        </div> 
+      <div class="columns is-multiline">
+        <div v-for="sys in this.sortedSystems" v-bind:key="sys.id" class="column is-one-third-fullhd is-half-desktop ">
+          <system :sys="sys" />
+        </div>
+      </div>
     </div>
-    </div>
+
   </main>
 </template>
 
@@ -29,7 +37,7 @@ export default {
   name: 'landing-page',
   data() {
     return {
-      sort: ['LFT 37','Nemet','Qarato','Segovit','Andhrimi','Isis','Nabatean','Kappa Phoenicis','BPM 45047','LTT 9795','Tavgi','Theta','Sugrivik','Pachamama'],
+      sort: ['LFT 37', 'Nemet', 'Qarato', 'Segovit', 'Andhrimi', 'Isis', 'Nabatean', 'Kappa Phoenicis', 'BPM 45047', 'LTT 9795', 'Tavgi', 'Theta', 'Sugrivik', 'Pachamama'],
       systems: {
       }
     }
@@ -39,19 +47,19 @@ export default {
 
   },
   computed: {
-    sortedSystems: function () {      
+    sortedSystems: function() {
       let results = []
-      for(var s in this.systems){        
-          this.systems[s].expansion = this.sort.indexOf(this.systems[s].name)        
-          results.push(this.systems[s])
+      for (var s in this.systems) {
+        this.systems[s].expansion = this.sort.indexOf(this.systems[s].name)
+        results.push(this.systems[s])
       }
-      return results.sort((a,b) => a.expansion - b.expansion)
+      return results.sort((a, b) => a.expansion - b.expansion)
     }
   },
   mounted: function() {
     var context = this
     db.watch.systems(function(system, key) {
-      Vue.set(context.systems, key, system)    
+      Vue.set(context.systems, key, system)
     })
   }
 };
