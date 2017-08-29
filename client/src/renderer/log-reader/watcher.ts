@@ -96,18 +96,21 @@ function toRecord (event: string) {
 }
 
 function getSystem (record: any): ISystem {
-    return {
+    var system = {
         timestamp: Date.parse(record.timestamp),
         id: sanitize(record.StarSystem),
         name: record.StarSystem,
         allegiance: record.SystemAllegiance,
         economy: record.SystemEconomy_Localised,
         government: record.SystemGovernment_Localised,
-        security: record.SystemSecurity_Localised,
-        powerplay: record.PowerplayState,
-        powers: (record.Powers as Array<string>).join(),
+        security: record.SystemSecurity_Localised,            
         states: {}
     } as ISystem
+    if (record.Powers) {
+        system.powerplay = record.PowerplayState
+        system.powers = (record.Powers as Array<string>).join()
+    }
+    return system
 }
 
 function getFactions (record: any, system: ISystem): IFaction[] {

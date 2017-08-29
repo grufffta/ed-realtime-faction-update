@@ -37,7 +37,7 @@ export default {
   name: 'landing-page',
   data() {
     return {
-      sort: ['LFT 37', 'Nemet', 'Qarato', 'Segovit', 'Andhrimi', 'Isis', 'Nabatean', 'Kappa Phoenicis', 'BPM 45047', 'LTT 9795', 'Tavgi', 'Theta', 'Sugrivik', 'Pachamama'],
+      sort: ['LFT 37', 'Nemet', 'Qarato', 'Segovit', 'Andhrimi', 'Isis', 'Nabatean', 'Kappa Phoenicis', 'BPM 45047', 'LTT 9795', 'Tavgi', 'Theta Sculptoris', 'Sugrivik', 'Pachamama'],
       systems: {
       }
     }
@@ -49,11 +49,22 @@ export default {
   computed: {
     sortedSystems: function() {
       let results = []
+      let nf = 0
       for (var s in this.systems) {
-        this.systems[s].expansion = this.sort.indexOf(this.systems[s].name)
+        this.systems[s].expansion = this.sort.indexOf(this.systems[s].name)             
+        
+        if (this.systems[s].expansion === -1) {
+          this.systems[s].expansion = this.systems[s].timestamp
+        }
+        console.log(this.systems[s].expansion, this.systems[s].name)        
         results.push(this.systems[s])
       }
-      return results.sort((a, b) => a.expansion - b.expansion)
+      return results.sort((a, b) => {
+        if (a.expansion > 100 && b.expansion > 100){
+          return b.expansion - a.expansion
+        }
+        return a.expansion - b.expansion
+      })
     }
   },
   mounted: function() {

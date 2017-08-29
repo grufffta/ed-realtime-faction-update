@@ -96,6 +96,8 @@ export default {
     },
     updateFactionState(state, faction) {
         this.gun.get(`system.${state.system.id}`).val(function (system) {
+            if (system === undefined)
+                return;
             let systemRef = this;
             state.faction = faction;
             state.system = system;

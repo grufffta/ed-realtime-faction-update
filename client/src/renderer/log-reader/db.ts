@@ -100,12 +100,12 @@ export default {
     },
     updateFactionState (state: ISystemFaction, faction: IFaction) {
         this.gun.get(`system.${state.system.id}`).val(function (system) {
-
+            if (system === undefined) return
             let systemRef = this
 
             state.faction = faction
             state.system = system
-
+            
             this.back(-1).get(`state.${system.id}.${faction.id}`)
                 .not(function (key) {
                     console.log('system state not found', state)

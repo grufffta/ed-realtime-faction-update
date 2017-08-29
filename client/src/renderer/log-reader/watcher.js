@@ -1,5 +1,5 @@
 import db from './db';
-import * as fs from 'fs';
+
 const watcher = {
     env: {
         isWeb: process.env.IS_WEB,
@@ -23,7 +23,7 @@ const watcher = {
     }
 };
 export default watcher;
-let fsw;
+let fsw,fs;
 function startWatchingLog() {
     if (watcher.env.isWindows && !watcher.env.isWeb) {
         readLogEntries(watcher.log.latest());
@@ -80,7 +80,7 @@ function toRecord(event) {
     }
 }
 function getSystem(record) {
-    return {
+    var system = {
         timestamp: Date.parse(record.timestamp),
         id: sanitize(record.StarSystem),
         name: record.StarSystem,
@@ -88,10 +88,13 @@ function getSystem(record) {
         economy: record.SystemEconomy_Localised,
         government: record.SystemGovernment_Localised,
         security: record.SystemSecurity_Localised,
-        powerplay: record.PowerplayState,
-        powers: record.Powers.join(),
         states: {}
     };
+    if (record.Powers) {
+        system.powerplay = record.PowerplayState;
+        system.powers = record.Powers.join();
+    }
+    return system;
 }
 function getFactions(record, system) {
     let factions = [];
