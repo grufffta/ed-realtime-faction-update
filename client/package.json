@@ -13,7 +13,9 @@
     "dev": "node .electron-vue/dev-runner.js",
     "pack": "npm run pack:main && npm run pack:renderer",
     "pack:main": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.main.config.js",
-    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js"
+    "pack:renderer": "cross-env NODE_ENV=production webpack --progress --colors --config .electron-vue/webpack.renderer.config.js",
+    "prepare": "npm run snyk-protect",
+    "snyk-protect": "snyk-protect"
   },
   "build": {
     "productName": "ed-faction-log-client",
@@ -50,11 +52,12 @@
     }
   },
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.21.3",
     "electron-edge2": "^2.5.1-pre",
-    "vue": "^2.4.2",
+    "vue": "^2.5.17",
     "vue-electron": "^1.0.6",
-    "vue-router": "^2.7.0"
+    "vue-router": "^2.7.0",
+    "@snyk/protect": "latest"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
@@ -92,5 +95,6 @@
     "webpack-dev-server": "^2.3.0",
     "webpack-hot-middleware": "^2.18.0",
     "windows-watcher": "0.0.1-pre4"
-  }
+  },
+  "snyk": true
 }
